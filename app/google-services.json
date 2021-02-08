@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512494197491",
+    "project_id": "journeysharing-dc3bb",
+    "storage_bucket": "journeysharing-dc3bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512494197491:android:f792397fb94e082ebaf586",
+        "android_client_info": {
+          "package_name": "com.example.journey_sharing_12"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512494197491-kbk1u0h5ih2hi6h47hutcs0cu2q470de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADunHd-YkWi6oEg7MvENOsDdImyVimTF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512494197491-kbk1u0h5ih2hi6h47hutcs0cu2q470de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

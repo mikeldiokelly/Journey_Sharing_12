@@ -14,9 +14,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
     }
 
     public void onClickSignUp(View v){
@@ -30,9 +27,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickLogin(View v){
             int viewId = v.getId();
-            if(viewId == R.id.login){
-                EditText editText = findViewById(R.id.)
-            }
+//            if(viewId == R.id.login){
+////                EditText editText = findViewById(R.id.)
+//            }
         }
 
 

@@ -20,9 +20,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthCredential;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -58,13 +63,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // google login
         googleSignIn = findViewById(R.id.googleSignInBtn);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("512494197491-kbk1u0h5ih2hi6h47hutcs0cu2q470de.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         signInClient = GoogleSignIn.getClient(this,gso);
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if(signInAccount!=null){
+        if(signInAccount!=null || mAuth.getCurrentUser()!=null){
             Toast.makeText(this,"User is logged in already",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this,MapActivity.class));
+            startActivity(new Intent(this,ProfileDashboard.class));
         }
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,8 +92,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Task<GoogleSignInAccount> signInTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount signInAcc = signInTask.getResult(ApiException.class);
-                Toast.makeText(this,"Google Account is connected to our application",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,MapActivity.class));
+                AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAcc.getIdToken(),null);
+                mAuth.signInWithCredential(authCredential)
+                        .addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+//                                   //updateUI(user);
+                                    Toast.makeText(MainActivity.this, "Connected to Google",Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(MainActivity.this,ProfileDashboard.class));
+                                } else {
+                                }
+                            }
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
 
             } catch (ApiException e) {
                 e.printStackTrace();

@@ -45,4 +45,8 @@ public class ProfileDashboard extends AppCompatActivity {
     }
 
 
+    public void viewConversations(View view) {
+        startActivity(new Intent(view.getContext(),ChatListActivity.class));
+
+    }
 }

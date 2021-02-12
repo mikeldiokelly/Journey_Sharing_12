@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.journey_sharing_12">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Journey_Sharing_12">
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatListActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".ProfileDashboard">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

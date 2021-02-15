@@ -112,7 +112,6 @@ public class ChatActivity extends AppCompatActivity {
     public void fabAlbum(View view) {
         if(checkAlbumPermission()){
             //....
-
         }
         else{
             PermissionTool.getInstance().requestReadExternalStoragePermission(this);

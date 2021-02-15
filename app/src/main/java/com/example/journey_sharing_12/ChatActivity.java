@@ -1,9 +1,10 @@
 package com.example.journey_sharing_12;
-
+import com.example.journey_sharing_12.PermissionTool;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +34,13 @@ public class ChatActivity extends AppCompatActivity {
 
     String UserName, selectedTopic,user_msg_key;
 
-
     private DatabaseReference dbr ;
+
+    private Uri camera_uri;
+    private File cameraFile;
+    private String cameraFileName;
+    private String cameraPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         user_msg_key = dbr.push().getKey();
         dbr.updateChildren(map);
 
-        DatabaseReference dbr2=dbr.child(user_msg_key);
+        DatabaseReference dbr2 = dbr.child(user_msg_key);
         Map<String, Object> map2 = new  HashMap<String, Object>();
         map2.put("msg",edtInput.getText().toString());
         map2.put("user",UserName);
@@ -103,5 +110,22 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void fabAlbum(View view) {
+        if(checkAlbumPermission()){
+            //....
+
+        }
+        else{
+            PermissionTool.getInstance().requestReadExternalStoragePermission(this);
+
+        }
+    }
+
+    private boolean checkAlbumPermission() {
+        if (PermissionTool.getInstance().isWriteExternalStorageGranted(this)
+                && PermissionTool.getInstance().isCameraGranted(this)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

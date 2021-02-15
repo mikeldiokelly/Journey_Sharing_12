@@ -25,9 +25,7 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
-    Button btnSendMsg;
-    EditText etMsg;
-
+    private EditText edtInput;
     ListView lvDiscussion;
     ArrayList<String> listConversations = new ArrayList<String>();
     ArrayAdapter arrayAdapt;
@@ -41,8 +39,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        btnSendMsg = (Button) findViewById(R.id.sendMsgBtn);
-        etMsg = (EditText) findViewById(R.id.msgText);
+        edtInput = (EditText) findViewById(R.id.edtInput);
 
         lvDiscussion = (ListView) findViewById(R.id.Discussion);
         arrayAdapt = new ArrayAdapter(this, android.R.layout.simple_list_item_1,listConversations);
@@ -53,24 +50,6 @@ public class ChatActivity extends AppCompatActivity {
         setTitle("Topic : "+selectedTopic);
 
         dbr= FirebaseDatabase.getInstance().getReference().child(selectedTopic);
-
-        btnSendMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String,Object> map = new HashMap<String, Object>();
-                user_msg_key = dbr.push().getKey();
-                dbr.updateChildren(map);
-
-                DatabaseReference dbr2=dbr.child(user_msg_key);
-                Map<String, Object> map2 = new  HashMap<String, Object>();
-                map2.put("msg",etMsg.getText().toString());
-                map2.put("user",UserName);
-                dbr2.updateChildren(map2);
-
-            }
-        });
-
-
         dbr.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -84,17 +63,14 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
@@ -111,5 +87,21 @@ public class ChatActivity extends AppCompatActivity {
             arrayAdapt.insert(conversation, arrayAdapt.getCount());
             arrayAdapt.notifyDataSetChanged();
         }
+    }
+
+    public void fabSend(View view) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        user_msg_key = dbr.push().getKey();
+        dbr.updateChildren(map);
+
+        DatabaseReference dbr2=dbr.child(user_msg_key);
+        Map<String, Object> map2 = new  HashMap<String, Object>();
+        map2.put("msg",edtInput.getText().toString());
+        map2.put("user",UserName);
+        dbr2.updateChildren(map2);
+
+    }
+
+    public void fabAlbum(View view) {
     }
 }
